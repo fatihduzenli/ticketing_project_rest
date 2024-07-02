@@ -1,8 +1,9 @@
 package com.cydeo.entity;
 
 import com.cydeo.enums.Gender;
-import lombok.*;
-import org.hibernate.annotations.Where;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,21 +12,26 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-//@Where(clause = "is_deleted=false")
-//Where annotation concatenates this clause to all the queries inside the user repository
-public class User extends BaseEntity{
+//@Where(clause = "is_deleted=false")         // SELECT * FROM users WHERE id = 4 AND is_deleted = false;
+public class User extends BaseEntity {
 
     private String firstName;
     private String lastName;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     private String userName;
-    private String password;
+
+    @Column(nullable = false)
+    private String passWord;
+
     private boolean enabled;
     private String phone;
+
     @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
 
 }

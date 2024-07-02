@@ -8,22 +8,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    private final ModelMapper mapper;
+    private final ModelMapper modelMapper;
 
-
-    public UserMapper(ModelMapper mapper) {
-        this.mapper = mapper;
+    public UserMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
     }
 
-    public User convertToUserEntity(UserDTO userDTO){
+    public User convertToEntity(UserDTO dto){
+        return modelMapper.map(dto,User.class);
 
-       return mapper.map(userDTO,User.class);
     }
 
-    public UserDTO convertToUserDto(User entity){
-
-        return mapper.map(entity,UserDTO.class);
+    public UserDTO convertToDto(User entity){
+        return modelMapper.map(entity,UserDTO.class);
     }
-
 
 }

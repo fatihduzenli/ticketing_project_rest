@@ -16,11 +16,16 @@ import java.time.LocalDate;
 @Table(name = "projects")
 @Where(clause = "is_deleted=false")
 public class Project extends BaseEntity {
-    @Column(unique = true)  // it makes the field unique
+
+    @Column(unique = true)
     private String projectCode;
+
     private String projectName;
 
+    @Column(columnDefinition = "DATE")
     private LocalDate startDate;
+
+    @Column(columnDefinition = "DATE")
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)

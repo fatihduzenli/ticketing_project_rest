@@ -1,31 +1,45 @@
 package com.cydeo.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
 @NoArgsConstructor
-@Getter
-@Setter
 @AllArgsConstructor
-@EntityListeners(BaseEntityListener.class)
-
+@Data
+@MappedSuperclass
 public class BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean isDeleted = false;
-    @Column(nullable = false,updatable = false) // this field can not be null, when we update ignore this field
+    @Column(nullable = false, updatable = false)
     private LocalDateTime insertDateTime;
-    @Column(nullable = false,updatable = false)
+    @Column(nullable = false, updatable = false)
     private Long insertUserId;
     @Column(nullable = false)
     private LocalDateTime lastUpdateDateTime;
     @Column(nullable = false)
     private Long lastUpdateUserId;
 
+    private Boolean isDeleted = false;
+
+    @PrePersist
+    public void onPrePersist() {
+        this.insertDateTime = LocalDateTime.now();
+        this.lastUpdateDateTime = LocalDateTime.now();
+        this.insertUserId = 1L;
+        this.lastUpdateUserId = 1L;
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        this.lastUpdateDateTime = LocalDateTime.now();
+        this.lastUpdateUserId = 1L;
+    }
 
 }
