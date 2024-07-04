@@ -11,7 +11,10 @@ import com.cydeo.repository.ProjectRepository;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
+import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -96,8 +99,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDTO> listAllProjectDetails() {
+        // Retrieves the current Authentication object from the SecurityContextHolder.
+        // This contains details about the current authenticated user.
+        Authentication  authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Casts the details from the Authentication object to SimpleKeycloakAccount
+        // which is a class from Keycloak that holds Keycloak-specific information about the user.
+        SimpleKeycloakAccount details = (SimpleKeycloakAccount) authentication.getDetails();
+        //Extracts the username from the Keycloak token.getPreferredUsername()
+        // is a method that returns the preferred username of the authenticated user from the Keycloak token.
+        String username = details.getKeycloakSecurityContext().getToken().getPreferredUsername();
 
-        UserDTO currentUserDTO = userService.findByUserName("harold@manager.com");
+        UserDTO currentUserDTO = userService.findByUserName(username);
 
         User user = userMapper.convertToEntity(currentUserDTO);
 
