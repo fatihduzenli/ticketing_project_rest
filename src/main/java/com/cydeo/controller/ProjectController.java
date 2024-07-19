@@ -21,7 +21,7 @@ public class ProjectController {
     }
 
     @GetMapping
-    @RolesAllowed({"Manager"})
+    @RolesAllowed("Manager")
     @Operation(summary = "Gets projects")
     public ResponseEntity<ResponseWrapper> getProjects() {
         List<ProjectDTO> projectDTO = projectService.listAllProjects();
@@ -29,7 +29,7 @@ public class ProjectController {
     }
 
     @GetMapping("{projectCode}")
-    @RolesAllowed({"Manager"})
+    @RolesAllowed("Manager")
     @Operation(summary = "Gets projects by the project code")
     public ResponseEntity<ResponseWrapper> getProjectsProjectByCode(@PathVariable("projectCode") String projectCode) {
         return ResponseEntity
@@ -47,7 +47,7 @@ public class ProjectController {
     }
 
     @PutMapping
-    @RolesAllowed({"Manager"})
+    @RolesAllowed("Manager")
     @Operation(summary = "Update projects")
     public ResponseEntity<ResponseWrapper> updateProject(@RequestBody ProjectDTO projectDTO) {
         projectService.update(projectDTO);
@@ -55,7 +55,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/projectCode")
-    @RolesAllowed({"Manager"})
+    @RolesAllowed("Manager")
     @Operation(summary = "Delete projects")
     public ResponseEntity<ResponseWrapper> deleteProject(@PathVariable String projectCode) {
         projectService.delete(projectCode);
@@ -64,7 +64,7 @@ public class ProjectController {
     }
 
     @GetMapping("/manager/project-status")
-    @RolesAllowed({"Manager"})
+    @RolesAllowed("Manager")
     @Operation(summary = "Get projects that assigned to certain manager")
     public ResponseEntity<ResponseWrapper> getProjectsByManager() {
         List<ProjectDTO> projectDTOList = projectService.listAllProjectDetails();
@@ -73,7 +73,7 @@ public class ProjectController {
     }
 
     @PutMapping("/manager/complete/{projectCode}")
-    @RolesAllowed({"Manager"})
+    @RolesAllowed("Manager")
     @Operation(summary = "Gets completed projects")
     public ResponseEntity<ResponseWrapper> managerCompleteProject(@PathVariable String projectCode) {
         projectService.complete(projectCode);
